@@ -93,11 +93,6 @@ class HouseScrapper(object):
 
       outfile.write(json.dumps(parsed_info, indent=4, ensure_ascii=False))
 
-  def has_changed(self):
-    changed = False
-    last_number_of_article = len(list(self.infos.values())[0])
-    current_number_of_article = len(list(self.scrap_all(last_number_of_article).values()[0])) 
-
   def _merge_lists(self, iterable):
     return reduce(operator.concat, iterable)
 
@@ -105,5 +100,3 @@ class HouseScrapper(object):
 base_url = "https://www.leboncoin.fr/" 
 hs = HouseScrapper(base_url, HouseInfo(("min", "700")))
 hs.parse_all_infos()
-# hs.store_info_to_json()
-hs.has_changed()
