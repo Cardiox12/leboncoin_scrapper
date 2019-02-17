@@ -1,4 +1,6 @@
-class LBCHeader(object):
+from enum import Enum
+
+class LBCHeader(Enum):
     HEADER = {
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.81 Safari/537.36',
         'Accept-Encoding': 'gzip, deflate, br',

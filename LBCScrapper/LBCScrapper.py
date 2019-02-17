@@ -1,14 +1,17 @@
 from abc import ABC, abstractmethod
-from LBCHeader import LBCHeader
+from LBCProperties.LBCHeader import LBCHeader
 import requests
 import json
 
 class LBCScrapper(ABC):
-    def __init__(self, url="https://www.leboncoin.fr/"):
-        self.session = requests.Session()
-        self.header = LBCHeader.HEADER
-        self.articles = []
-        self.last_pid = 0
+    def __init__(self, location: LBCQueryStringCitiesEnum):
+        super().__init__()
+        self.url        = "https://www.leboncoin.fr/"
+        self.location   = self.location
+        self.articles   = []
+        self.last_pid   = 0
+        self.session    = requests.Session()
+        self.session.headers.update(LBCHeader.HEADER.value)
 
     @abstractmethod
     def store_to_json(self, filename="data.json"):
