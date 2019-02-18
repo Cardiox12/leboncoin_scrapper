@@ -1,5 +1,5 @@
 class LBCHouseProperties(object):
-    def __init__(self, price: LBCPrice, rooms: LBCRooms, square: LBCSquare):
+    def __init__(self, price, rooms, square):
         self.price  = price
         self.rooms  = rooms
         self.square = square

@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
+from abc import ABCMeta, abstractmethod
 from LBCProperties.LBCHeader import LBCHeader
 import requests
 import json
 
-class LBCScrapper(ABC):
-    def __init__(self, location: LBCQueryStringCitiesEnum):
+class LBCScrapper(metaclass=ABCMeta):
+    def __init__(self, location):
         super().__init__()
         self.url        = "https://www.leboncoin.fr/"
-        self.location   = self.location
+        self.location   = location
         self.articles   = []
         self.last_pid   = 0
         self.session    = requests.Session()

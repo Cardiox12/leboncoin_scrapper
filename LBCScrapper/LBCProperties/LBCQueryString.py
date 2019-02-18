@@ -1,8 +1,10 @@
-from abc import ABC
-from LBCQueryStringEnum import LBCQueryStringEnum
+from abc                import ABCMeta
+from .LBCQueryStringEnum import LBCQueryStringEnum
+import re
 
-class LBCQueryString(ABC):
+class LBCQueryString(metaclass=ABCMeta):
     def __init__(self, query_string=""):
+        super().__init__()
         self.query_string   = query_string
         self.sort_string    = [item.value for item in LBCQueryStringEnum if item != LBCQueryStringEnum.NEW_PAGE.value]
 
@@ -26,6 +28,6 @@ class LBCQueryString(ABC):
         return self.query_string
 
     def increment(self, i):
-        if LBCQueryStringEnum.NEW_PAGE.value in self.query_string:
-            self.query_string.replace(LBCQueryString.NEW_PAGE.value, 
-                                        f"{LBCQueryStringEnum.NEW_PAGE.value}{i}")
+        self.query_string = re.sub(r'(&page=\d*)', '', self.query_string)
+        self.query_string += f"{LBCQueryStringEnum.NEW_PAGE.value}{i}"
+        return self.query_string
