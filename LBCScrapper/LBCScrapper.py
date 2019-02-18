@@ -1,5 +1,7 @@
 from abc import ABCMeta, abstractmethod
 from LBCProperties.LBCHeader import LBCHeader
+from functools import reduce 
+import operator
 import requests
 import json
 
@@ -12,6 +14,9 @@ class LBCScrapper(metaclass=ABCMeta):
         self.last_pid   = 0
         self.session    = requests.Session()
         self.session.headers.update(LBCHeader.HEADER.value)
+
+    def _merge_lists(self, iterable):
+        return reduce(operator.concat, iterable)
 
     @abstractmethod
     def store_to_json(self, filename="data.json"):

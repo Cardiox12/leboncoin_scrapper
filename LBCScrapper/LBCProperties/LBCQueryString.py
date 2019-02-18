@@ -1,12 +1,16 @@
-from abc                import ABCMeta
-from .LBCQueryStringEnum import LBCQueryStringEnum
+from abc                    import ABCMeta, abstractmethod
+from .LBCQueryStringEnum    import LBCQueryStringEnum
 import re
 
 class LBCQueryString(metaclass=ABCMeta):
-    def __init__(self, query_string=""):
-        super().__init__()
-        self.query_string   = query_string
+    def __init__(self, location):
+        super().__init__(  )
+        self.query_string   = LBCQueryStringEnum.LOCATION.value + location
         self.sort_string    = [item.value for item in LBCQueryStringEnum if item != LBCQueryStringEnum.NEW_PAGE.value]
+
+    @abstractmethod
+    def append(self, url):
+        pass
 
     def _sanitize(self):
         for query in self.sort_string:
@@ -14,20 +18,17 @@ class LBCQueryString(metaclass=ABCMeta):
 
     def older(self):
         self._sanitize()
-        self.query_string += LBCQueryStringEnum.OLDER.value
-        return self.query_string
+        return LBCQueryStringEnum.OLDER.value
 
     def price_increase(self):
         self._sanitize()
-        self.query_string += LBCQueryStringEnum.INCREASE.value
-        return self.query_string
+        return LBCQueryStringEnum.INCREASE.value
 
     def price_decrease(self):
         self._sanitize()
-        self.query_string += LBCQueryStringEnum.DECREASE.value
-        return self.query_string
+        return LBCQueryStringEnum.DECREASE.value
 
-    def increment(self, i):
+    def increment(self, url, i):
         self.query_string = re.sub(r'(&page=\d*)', '', self.query_string)
         self.query_string += f"{LBCQueryStringEnum.NEW_PAGE.value}{i}"
-        return self.query_string
+        return url + self.query_string
